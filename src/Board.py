@@ -2,39 +2,39 @@ class Board:
     def __init__(self, x, y):
         self.board = [[False for i in range(x)]for k in range(y)]
 
-    def setliving(self, x, y, living: bool):
-        self.board[x][y] = living
+    def set_living(self, x, y):
+        self.board[x][y] = not self.board[x][y]
 
-    def getnumberoflivingneighbours(self, x, y):
-        nrOfLivNeig = 0
+    def get_number_of_living_neighbours(self, x, y):
+        nr_of_liv_neig = 0
 
         if self.board[x+1][y]:             # 1          # 4 3 2
-            nrOfLivNeig += 1                            # 5 o 1
+            nr_of_liv_neig += 1                            # 5 o 1
                                                         # 6 7 8
         if self.board[x + 1][y + 1]:       # 2
-            nrOfLivNeig += 1
+            nr_of_liv_neig += 1
 
         if self.board[x][y + 1]:           # 3
-            nrOfLivNeig += 1
+            nr_of_liv_neig += 1
 
         if self.board[x - 1][y + 1]:       # 4
-            nrOfLivNeig += 1
+            nr_of_liv_neig += 1
 
         if self.board[x - 1][y]:           # 5
-            nrOfLivNeig += 1
+            nr_of_liv_neig += 1
 
         if self.board[x - 1][y - 1]:       # 6
-            nrOfLivNeig += 1
+            nr_of_liv_neig += 1
 
         if self.board[x][y - 1]:           # 7
-            nrOfLivNeig += 1
+            nr_of_liv_neig += 1
 
         if self.board[x + 1][y - 1]:       # 8
-            nrOfLivNeig += 1
+            nr_of_liv_neig += 1
 
-        return nrOfLivNeig
+        return nr_of_liv_neig
 
-    def getliving(self, x, y):
+    def get_living(self, x, y):
         print(self.board[x][y])
 
     def draw(self):
@@ -49,10 +49,10 @@ if __name__ == '__main__':
     board = Board(5, 5)
     board.draw()
     print()
-    board.setliving(2, 3, True)
-    board.setliving(2, 1, True)
+    board.set_living(2, 3)
+    board.set_living(2, 1)
     board.draw()
-    print(board.getnumberoflivingneighbours(2, 2))
+    print(board.get_number_of_living_neighbours(2, 2))
     print()
     for i in range(len(board.board)):
         print(board.board[i])

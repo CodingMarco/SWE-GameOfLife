@@ -4,24 +4,15 @@
 import pygame
 from Ui import Ui
 from Board import Board
+from Controller import Controller
 
 
-def main(board_width, board_height, cell_size):
+def main():
     pygame.init()
-    board = Board(board_width, board_height)
-    board.toggle_living(2, 2)
-    board.toggle_living(3, 3)
-    ui = Ui(cell_size, board)
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                return
-        ui.draw_game_goard(board)
-        pygame.display.update()
+    controller = Controller(10, 10, 50)
+    controller.run()
 
 
 if __name__ == '__main__':
-    main(10, 10, 50)
+    main()
 

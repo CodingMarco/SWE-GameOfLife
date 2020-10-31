@@ -26,3 +26,17 @@ class Ui:
                                              self.cell_size-self.grid_line_width,
                                              self.cell_size-self.grid_line_width))
 
+    def mouse_coordinates_to_cell(self):
+        x, y = pygame.mouse.get_pos()
+        if x < self.grid_line_width:
+            x = 0
+        else:
+            x = (x-self.grid_line_width) // self.cell_size
+
+        if y < self.grid_line_width:
+            y = 0
+        else:
+            y = (y-self.grid_line_width) // self.cell_size
+
+        return x, y
+

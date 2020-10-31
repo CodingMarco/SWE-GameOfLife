@@ -9,7 +9,7 @@ from Controller import Controller
 
 def main():
     pygame.init()
-    controller = Controller(10, 10, 50)
+    controller = Controller(50, 50, 20)
     controller.run()
 
 

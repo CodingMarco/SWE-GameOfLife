@@ -35,7 +35,7 @@ class Board:
         return nr_of_liv_neig
 
     def get_living(self, x, y):
-        print(self.board[x][y])
+        return self.board[x][y]
 
     def draw(self):
         for r in self.board:

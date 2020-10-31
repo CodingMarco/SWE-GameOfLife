@@ -8,12 +8,10 @@ from Board import Board
 
 def main(board_width, board_height, cell_size):
     pygame.init()
-    window = pygame.display.set_mode((board_width * cell_size, board_height * cell_size))
-
     board = Board(board_width, board_height)
     board.toggle_living(2, 2)
     board.toggle_living(3, 3)
-    ui = Ui(window, cell_size)
+    ui = Ui(cell_size, board)
 
     while True:
         for event in pygame.event.get():

@@ -2,8 +2,6 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 import pygame
-from ui import Ui
-from board import Board
 from controller import Controller
 
 

@@ -10,14 +10,32 @@ class Controller:
 
     def run(self):
         while True:
-            events = [pygame.event.wait()] + pygame.event.get()
-            for event in events:
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = self.ui.mouse_coordinates_to_cell()
-                    self.board.toggle_living(x, y)
+            events = self.wait_for_at_least_one_event()
+            self.process_events(events)
+            self.update_ui()
 
-            self.ui.draw_game_goard(self.board)
-            pygame.display.update()
+    @staticmethod
+    def wait_for_at_least_one_event():
+        return [pygame.event.wait()] + pygame.event.get()
+
+    def process_events(self, events):
+        for event in events:
+            self.process_event(event)
+
+    def process_event(self, event):
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            return
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            self.process_mouse_event()
+
+    def process_mouse_event(self):
+        x, y = self.ui.mouse_coordinates_to_cell()
+        self.board.toggle_living(x, y)
+
+    def update_ui(self):
+        self.ui.draw_game_goard(self.board)
+        pygame.display.update()
+
+
+

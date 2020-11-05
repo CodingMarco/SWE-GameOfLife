@@ -1,6 +1,6 @@
 import pygame
 import pygame.color
-from Board import Board
+from board import Board
 
 
 class Ui:

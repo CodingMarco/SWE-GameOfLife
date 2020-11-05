@@ -1,6 +1,6 @@
 import unittest
 
-from src.Board import Board
+from src.board import Board
 
 
 def draw_board(b: Board):

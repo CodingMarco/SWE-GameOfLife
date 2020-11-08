@@ -7,12 +7,13 @@ class Controller:
     def __init__(self, board_width, board_height, cell_size):
         self.board = Board(board_width, board_height)
         self.ui = Ui(cell_size, self.board)
+        self.quit = False
 
     def run(self):
-        while True:
+        while not self.quit:
+            self.update_ui()
             events = self.wait_for_at_least_one_event()
             self.process_events(events)
-            self.update_ui()
 
     @staticmethod
     def wait_for_at_least_one_event():
@@ -25,7 +26,7 @@ class Controller:
     def process_event(self, event):
         if event.type == pygame.QUIT:
             pygame.quit()
-            return
+            self.quit = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             self.process_mouse_event()
 

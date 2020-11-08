@@ -9,6 +9,7 @@ class Controller:
         self.ui = Ui(cell_size, self.board)
         self.quit = False
 
+
     def run(self):
         while not self.quit:
             self.update_ui()

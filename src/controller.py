@@ -10,7 +10,9 @@ class Controller:
     def __init__(self, board_width, board_height, cell_size):
         self.board = Board(board_width, board_height)
         self.ui = Ui(cell_size, self.board)
-        self.new_generation_delay = 500
+        self.new_generation_delay = 100
+        # Mouse motions would trigger unnecessary redraw events
+        pygame.event.set_blocked(pygame.MOUSEMOTION)
         self.quit = False
         self.paused = True
 

@@ -12,9 +12,9 @@ class Controller:
         self.ui = Ui(cell_size, self.board)
         self.new_generation_delay = 500
         self.quit = False
+        self.paused = True
 
     def run(self):
-        pygame.time.set_timer(Controller.GENERATIONUPDATE, self.new_generation_delay)
         while not self.quit:
             self.update_ui()
             events = self.wait_for_at_least_one_event()
@@ -34,8 +34,37 @@ class Controller:
             self.quit = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             self.process_mouse_event()
+        elif event.type == pygame.KEYDOWN:
+            self.process_keydown_event(event)
         elif event.type == Controller.GENERATIONUPDATE:
             self.board = GameRules.apply_new_generation(self.board)
+
+    def process_keydown_event(self, event):
+        if event.key == pygame.K_r:
+            self.set_update_paused(False)
+        elif event.key == pygame.K_SPACE:
+            self.space_pressed()
+
+    def space_pressed(self):
+        if self.paused:
+            self.single_generationupdate_event()
+        else:
+            self.set_update_paused(True)
+
+    @staticmethod
+    def single_generationupdate_event():
+        pygame.event.post(pygame.event.Event(Controller.GENERATIONUPDATE))
+
+    def set_update_paused(self, do_pause):
+        if do_pause == self.paused:
+            return
+
+        if do_pause:
+            pygame.time.set_timer(Controller.GENERATIONUPDATE, 0)
+        else:
+            pygame.time.set_timer(Controller.GENERATIONUPDATE, self.new_generation_delay)
+
+        self.paused = do_pause
 
     def process_mouse_event(self):
         x, y = self.ui.mouse_coordinates_to_cell()

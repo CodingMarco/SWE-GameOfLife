@@ -45,6 +45,10 @@ class Controller:
         elif event.key == pygame.K_SPACE:
             self.space_pressed()
 
+    def process_mouse_event(self):
+        x, y = self.ui.mouse_coordinates_to_cell()
+        self.board.toggle_living(x, y)
+
     def space_pressed(self):
         if self.paused:
             self.single_generationupdate_event()
@@ -66,12 +70,8 @@ class Controller:
 
         self.paused = do_pause
 
-    def process_mouse_event(self):
-        x, y = self.ui.mouse_coordinates_to_cell()
-        self.board.toggle_living(x, y)
-
     def update_ui(self):
-        self.ui.draw_game_goard(self.board)
+        self.ui.draw_game_board(self.board)
         pygame.display.update()
 
 

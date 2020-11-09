@@ -7,8 +7,8 @@ from gamerules import GameRules
 class Controller:
     GENERATIONUPDATE = pygame.USEREVENT+1
 
-    def __init__(self, board_width, board_height, cell_size):
-        self.board = Board(board_width, board_height)
+    def __init__(self, board, cell_size):
+        self.board = board
         self.ui = Ui(cell_size, self.board)
         self.new_generation_delay = 100
         # Mouse motions would trigger unnecessary redraw events

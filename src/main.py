@@ -3,11 +3,14 @@
 
 import pygame
 from controller import Controller
+from board import Board
+import presets
 
 
 def main():
     pygame.init()
-    controller = Controller(20, 20, 30)
+    board = Board(11, 11, presets.square)
+    controller = Controller(board, 30)
     controller.run()
 
 

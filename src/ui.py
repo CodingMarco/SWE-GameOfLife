@@ -15,7 +15,7 @@ class Ui:
                                                board.get_height() * cell_size + self.grid_line_width))
         self.window.fill(self.grid_color)
 
-    def draw_game_goard(self, board: Board):
+    def draw_game_board(self, board: Board):
         self.window.fill(self.grid_color)
         for x in range(0, board.get_width()):
             for y in range(0, board.get_height()):

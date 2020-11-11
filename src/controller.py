@@ -1,13 +1,13 @@
 import pygame
 from ui import Ui
 from board import Board
-from gamerules import GameRules
+import gamerules
 
 
 class Controller:
     GENERATIONUPDATE = pygame.USEREVENT+1
 
-    def __init__(self, board, cell_size):
+    def __init__(self, board: Board, cell_size):
         self.board = board
         self.ui = Ui(cell_size, self.board)
         self.new_generation_delay = 50
@@ -31,7 +31,7 @@ class Controller:
         elif event.type == pygame.KEYDOWN:
             self.process_keydown_event(event)
         elif event.type == Controller.GENERATIONUPDATE:
-            self.board = GameRules.apply_new_generation(self.board)
+            self.board = gamerules.apply_new_generation(self.board)
 
     def process_keydown_event(self, event):
         if event.key == pygame.K_r:

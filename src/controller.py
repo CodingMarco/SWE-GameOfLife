@@ -7,10 +7,10 @@ from gamerules import GameRules
 class Controller:
     GENERATIONUPDATE = pygame.USEREVENT+1
 
-    def __init__(self, board_width, board_height, cell_size):
-        self.board = Board(board_width, board_height)
+    def __init__(self, board, cell_size):
+        self.board = board
         self.ui = Ui(cell_size, self.board)
-        self.new_generation_delay = 100
+        self.new_generation_delay = 50
         # Mouse motions would trigger unnecessary redraw events
         pygame.event.set_blocked(pygame.MOUSEMOTION)
         self.quit = False
@@ -19,15 +19,7 @@ class Controller:
     def run(self):
         while not self.quit:
             self.update_ui()
-            events = self.wait_for_at_least_one_event()
-            self.process_events(events)
-
-    @staticmethod
-    def wait_for_at_least_one_event():
-        return [pygame.event.wait()] + pygame.event.get()
-
-    def process_events(self, events):
-        for event in events:
+            event = pygame.event.wait()
             self.process_event(event)
 
     def process_event(self, event):

@@ -2,14 +2,27 @@ import logging
 
 
 class Board:
-    def __init__(self, width, height, preset=None):                 # width height = 16 ===(0-15)
+    def __init__(self, width, height, preset=None):
         self.width = width
         self.height = height
+        self.cell_data = [[0 for y in range(height)] for x in range(width)]
         if preset is not None:
-            # TODO: Implement preset class and preset handling
-            pass
-        else:
-            self.cell_data = [[0 for i in range(width)] for k in range(height)]
+            self.place_preset_in_middle_of_board(preset)
+
+    def place_preset_in_middle_of_board(self, preset):
+        preset_width = len(preset[0])
+        preset_height = len(preset)
+        preset_offset_x = self.width // 2 - preset_width // 2
+        preset_offset_y = self.height // 2 - preset_height // 2
+
+        preset_x = 0
+        preset_y = 0
+        for x in range(preset_offset_x, preset_offset_x + preset_width):
+            for y in range(preset_offset_y, preset_offset_y + preset_height):
+                self.cell_data[x][y] = preset[preset_y][preset_x]
+                preset_y += 1
+            preset_x += 1
+            preset_y = 0
 
     def get_width(self):
         return self.width

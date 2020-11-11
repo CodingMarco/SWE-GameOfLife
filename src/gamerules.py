@@ -1,24 +1,20 @@
 import copy
 
 
-class GameRules:
-    def __init__(self):
-        pass
+def apply_new_generation(old_board):
+    new_board = copy.deepcopy(old_board)
+    for x in range(old_board.width):
+        for y in range(old_board.height):
+            nr_of_living_neighbours = old_board.get_number_of_living_neighbours(x, y)
+            is_current_cell_living = old_board.get_living(x, y)
 
-    def apply_new_generation(self, board):
-        copy_board = copy.deepcopy(board)
-        for i in range(board.width):
-            for k in range(board.height):
-                nr_of_living = board.get_number_of_living_neighbours(i, k)
-                living = board.get_living(i, k)
+            if not is_current_cell_living:
+                if nr_of_living_neighbours == 3:
+                    new_board.toggle_living(x, y)
 
-                if living == 0:  # check if field is living
-                    if nr_of_living == 3:  # if dead and 3 living => turn alive
-                        copy_board.toggle_living(i, k)
-
-                else:  # check if field is dead
-                    if nr_of_living == 1:  # if alive and less or equal 1 living => turn dead
-                        copy_board.toggle_living(i, k)
-                    elif nr_of_living >= 4:  # if alive and more or equal 4 living => turn dead
-                        copy_board.toggle_living(i, k)
-        return copy_board
+            else:
+                if nr_of_living_neighbours < 2:
+                    new_board.toggle_living(x, y)
+                elif nr_of_living_neighbours > 3:
+                    new_board.toggle_living(x, y)
+    return new_board

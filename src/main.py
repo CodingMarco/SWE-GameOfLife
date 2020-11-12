@@ -9,8 +9,8 @@ import presets
 
 def main():
     pygame.init()
-    board = Board(21, 21, presets.pulsar)
-    controller = Controller(board, cell_size=20)
+    board = Board(91, 81, presets.pulsar)
+    controller = Controller(board, cell_size=10)
     controller.run()
 
 

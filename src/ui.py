@@ -16,11 +16,12 @@ class Ui:
                                                board.get_height() * cell_size + self.grid_line_width))
         self.window.fill(self.grid_color)
         self.prev_board = copy.deepcopy(board)
+        self.draw_game_board(board, draw_full_board=True)
 
-    def draw_game_board(self, board: Board):
+    def draw_game_board(self, board: Board, draw_full_board=False):
         for x in range(0, board.get_width()):
             for y in range(0, board.get_height()):
-                if board.get_living(x, y) != self.prev_board.get_living(x, y):
+                if board.get_living(x, y) != self.prev_board.get_living(x, y) or draw_full_board:
                     pygame.draw.rect(self.window,
                                      self.living_color if board.get_living(x, y) else self.dead_color,
                                      pygame.Rect(x * self.cell_size + self.grid_line_width,

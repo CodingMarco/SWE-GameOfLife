@@ -5,13 +5,17 @@ import pygame
 from controller import Controller
 from board import Board
 import presets
+import main_menu
 
 
 def main():
-    pygame.init()
-    board = Board(91, 81, presets.pulsar)
-    controller = Controller(board, cell_size=10)
-    controller.run()
+    while True:
+        preset_chosen = main_menu.show_main_menu()
+        pygame.init()
+        board = Board(91, 81, presets.presets_dict[preset_chosen])
+        controller = Controller(board, cell_size=20)
+        controller.run()
+        pygame.quit()
 
 
 if __name__ == '__main__':

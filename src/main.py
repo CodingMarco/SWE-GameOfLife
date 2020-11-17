@@ -1,17 +1,21 @@
-# Press Shift+F10 to execute the code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-import pygame
-from controller import Controller
+from main_menu import MainMenu
+from presets import presets_dict
 from board import Board
-import presets
+from controller import Controller
 
 
 def main():
-    pygame.init()
-    board = Board(91, 81, presets.pulsar)
-    controller = Controller(board, cell_size=10)
-    controller.run()
+    menu = MainMenu()
+
+    while True:
+        menu.show()
+        preset_chosen = menu.preset_chosen
+        if menu.exit:
+            break
+
+        board = Board(91, 81, presets_dict[preset_chosen])
+        controller = Controller(board, cell_size=20)
+        controller.run()
 
 
 if __name__ == '__main__':

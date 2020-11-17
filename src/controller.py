@@ -18,14 +18,20 @@ class Controller:
         self.paused = True
 
     def run(self):
+        pygame.init()
+
         while not self.quit:
             self.update_ui()
             event = pygame.event.wait()
             self.process_event(event)
 
+        pygame.event.clear()
+        self.set_update_paused(True)
+
+        pygame.quit()
+
     def process_event(self, event):
         if event.type == pygame.QUIT:
-            pygame.quit()
             self.quit = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             self.process_mouse_event()
@@ -45,6 +51,8 @@ class Controller:
         elif event.key == pygame.K_PLUS:
             self.new_generation_delay = round(self.new_generation_delay * 0.9)
             self.update_generationupdate_timer_delay()
+        elif event.key == pygame.K_ESCAPE:
+            self.quit = True
 
     def process_mouse_event(self):
         x, y = self.ui.mouse_coordinates_to_cell()

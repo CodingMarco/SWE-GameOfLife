@@ -53,3 +53,16 @@ spaceship = [[0, 0, 1, 1, 0],
              [1, 1, 0, 1, 1],
              [1, 1, 1, 1, 0],
              [0, 1, 1, 0, 0]]
+
+presets_dict = {
+    "Glider": glider,
+    "Blinker": blinker,
+    "Toad": toad,
+    "Pulsar": pulsar,
+    "Gosper gun": gosper_gun,
+    "Diehard": diehard,
+    "Boat": boat,
+    "Beacon": beacon,
+    "Acorn": acorn,
+    "Spaceship": spaceship
+}

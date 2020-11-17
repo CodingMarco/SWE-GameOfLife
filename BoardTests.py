@@ -5,8 +5,8 @@ from src.board import Board
 
 def draw_board(b: Board):
     print("---------------------------------")
-    for y in range(0, b.get_height()):
-        for x in range(0, b.get_width()):
+    for y in range(0, b.height):
+        for x in range(0, b.width):
             print(b.get_living(x, y), end=" ")
         print()
 

@@ -8,83 +8,78 @@ class Controller:
     GENERATIONUPDATE = pygame.USEREVENT+1
 
     def __init__(self, board: Board, cell_size):
-        self.board = board
-        self.ui = Ui(cell_size, self.board)
-        self.new_generation_delay = 100
-        # Mouse motions would trigger unnecessary redraw events
-        pygame.event.set_blocked(pygame.MOUSEMOTION)
+        self._board = board
+        self._ui = Ui(cell_size, self._board)
+        self._new_generation_delay = 100
+        self._quit = False
+        self._generation_update_enabled = False
 
-        self.quit = False
-        self.paused = True
+        # Mouse motions would trigger unnecessary redraw events very frequently
+        pygame.event.set_blocked(pygame.MOUSEMOTION)
 
     def run(self):
         pygame.init()
 
-        while not self.quit:
-            self.update_ui()
+        while not self._quit:
+            self._update_ui()
             event = pygame.event.wait()
-            self.process_event(event)
-
-        pygame.event.clear()
-        self.set_update_paused(True)
+            self._handle_event(event)
 
         pygame.quit()
 
-    def process_event(self, event):
-        if event.type == pygame.QUIT:
-            self.quit = True
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            self.process_mouse_event()
-        elif event.type == pygame.KEYDOWN:
-            self.process_keydown_event(event)
-        elif event.type == Controller.GENERATIONUPDATE:
-            self.board = gamerules.apply_new_generation(self.board)
-
-    def process_keydown_event(self, event):
-        if event.key == pygame.K_r:
-            self.set_update_paused(False)
-        elif event.key == pygame.K_SPACE:
-            self.space_pressed()
-        elif event.key == pygame.K_MINUS:
-            self.new_generation_delay = round(self.new_generation_delay * 1.1)
-            self.update_generationupdate_timer_delay()
-        elif event.key == pygame.K_PLUS:
-            self.new_generation_delay = round(self.new_generation_delay * 0.9)
-            self.update_generationupdate_timer_delay()
-        elif event.key == pygame.K_ESCAPE:
-            self.quit = True
-
-    def process_mouse_event(self):
-        x, y = self.ui.mouse_coordinates_to_cell()
-        self.board.toggle_living(x, y)
-
-    def space_pressed(self):
-        if self.paused:
-            self.single_generationupdate_event()
-        else:
-            self.set_update_paused(True)
-
-    @staticmethod
-    def single_generationupdate_event():
-        pygame.event.post(pygame.event.Event(Controller.GENERATIONUPDATE))
-
-    def set_update_paused(self, do_pause):
-        if do_pause == self.paused:
-            return
-
-        if do_pause:
-            pygame.time.set_timer(Controller.GENERATIONUPDATE, 0)
-        else:
-            self.update_generationupdate_timer_delay()
-
-        self.paused = do_pause
-
-    def update_generationupdate_timer_delay(self):
-        pygame.time.set_timer(Controller.GENERATIONUPDATE, self.new_generation_delay)
-
-    def update_ui(self):
-        self.ui.draw_game_board(self.board)
+    def _update_ui(self):
+        self._ui.draw_game_board(self._board)
         pygame.display.update()
 
+    def _handle_event(self, event):
+        if event.type == pygame.QUIT:
+            self._quit = True
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            self._handle_mouse_event()
+        elif event.type == pygame.KEYDOWN:
+            self._handle_keydown_event(event)
+        elif event.type == Controller.GENERATIONUPDATE:
+            self._board = gamerules.apply_new_generation(self._board)
 
+    def _handle_mouse_event(self):
+        x, y = self._ui.mouse_coordinates_to_cell()
+        self._board.toggle_living(x, y)
 
+    def _handle_keydown_event(self, event):
+        if event.key == pygame.K_r:
+            self._set_generationupdate_enabled(True)
+        elif event.key == pygame.K_SPACE:
+            self._on_space_pressed()
+        elif event.key == pygame.K_MINUS:
+            self._new_generation_delay = round(self._new_generation_delay * 1.2)
+            self._update_generationupdate_timer_delay()
+        elif event.key == pygame.K_PLUS:
+            self._new_generation_delay = round(self._new_generation_delay * 0.8)
+            self._update_generationupdate_timer_delay()
+        elif event.key == pygame.K_ESCAPE:
+            self._quit = True
+
+    def _set_generationupdate_enabled(self, enable):
+        if enable == self._generation_update_enabled:
+            return
+
+        if enable:
+            self._update_generationupdate_timer_delay()
+
+        else:
+            pygame.time.set_timer(Controller.GENERATIONUPDATE, 0)
+
+        self._generation_update_enabled = enable
+
+    def _on_space_pressed(self):
+        if self._generation_update_enabled:
+            self._set_generationupdate_enabled(False)
+        else:
+            self._post_single_generationupdate_event()
+
+    @staticmethod
+    def _post_single_generationupdate_event():
+        pygame.event.post(pygame.event.Event(Controller.GENERATIONUPDATE))
+
+    def _update_generationupdate_timer_delay(self):
+        pygame.time.set_timer(Controller.GENERATIONUPDATE, self._new_generation_delay)

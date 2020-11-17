@@ -5,7 +5,7 @@ import presets
 class MainMenu:
     def __init__(self):
         self.exit = False
-        self.preset_chosen: str = ""
+        self.preset_chosen = ""
 
         self._tk_app = tk.Tk()
         self._hide_tk_window()

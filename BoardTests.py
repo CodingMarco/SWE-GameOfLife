@@ -1,12 +1,11 @@
 import unittest
-
 from src.board import Board
 
 
 def draw_board(b: Board):
     print("---------------------------------")
-    for y in range(0, b.get_height()):
-        for x in range(0, b.get_width()):
+    for y in range(0, b.height):
+        for x in range(0, b.width):
             print(b.get_living(x, y), end=" ")
         print()
 
@@ -38,8 +37,6 @@ class GetNumberOfLivingNeighboursTest(unittest.TestCase):
         self.assertEqual(b.get_number_of_living_neighbours(1, 2), 2)
         self.assertEqual(b.get_number_of_living_neighbours(1, 3), 1)
 
-
-
     def test_in_middle(self):
         b = Board(5, 5)
         b.toggle_living(2, 3)
@@ -64,8 +61,6 @@ class GetNumberOfLivingNeighboursTest(unittest.TestCase):
         b.toggle_living(4, 3)
         b.toggle_living(0, 2)
         self.assertEqual(b.get_number_of_living_neighbours(4, 2), 3)
-
-
 
 
 if __name__ == '__main__':

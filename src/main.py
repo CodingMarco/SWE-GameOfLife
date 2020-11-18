@@ -13,7 +13,7 @@ def main():
         if menu.exit:
             break
 
-        board = Board(91, 81, presets_dict[preset_chosen])
+        board = Board(width=30, height=30, preset=presets_dict[preset_chosen])
         controller = Controller(board, cell_size=20)
         controller.run()
 

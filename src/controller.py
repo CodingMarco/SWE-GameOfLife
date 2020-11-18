@@ -28,7 +28,7 @@ class Controller:
         pygame.quit()
 
     def _update_ui(self):
-        self._ui.draw_game_board(self._board)
+        self._ui.draw_game(self._board)
         pygame.display.update()
 
     def _handle_event(self, event):
